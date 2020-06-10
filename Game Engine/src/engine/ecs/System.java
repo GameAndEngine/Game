@@ -1,0 +1,72 @@
+package engine.ecs;
+
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Set;
+
+public class System {
+
+	private LinkedHashMap<String, LinkedList<Entity>> entities;
+	
+	public System() {
+		entities = new LinkedHashMap<String, LinkedList<Entity>>();
+	}
+	
+	public void addEntity(Entity entity) {
+		entity.system = this;
+		if (!entities.containsKey(entity.getTag())) {
+			entities.put(entity.getTag(), new LinkedList<Entity>());
+		}
+		
+		entities.get(entity.getTag()).add(entity);
+	}
+	
+	public void addEntityAtRuntime(Entity entity) {
+		addEntity(entity);
+		entity.start();
+	}
+	
+	public void removeEntity(Entity entity) {
+		entities.get(entity.getTag()).remove(entity);
+	}
+	
+	public void removeEntitiesOfTag(String tag) {
+		entities.remove(tag);
+	}
+	
+	public void start() {
+		for(String key : entities.keySet()) {
+			for (int i = 0; i < entities.get(key).size(); i++)
+			entities.get(key).get(i).start();
+		}
+	}
+	
+	public void input() {
+		for(String key : entities.keySet()) {
+			for (int i = 0; i < entities.get(key).size(); i++)
+			entities.get(key).get(i).input();
+		}
+	}
+	
+	public void tick() {
+		for(String key : entities.keySet()) {
+			for (int i = 0; i < entities.get(key).size(); i++)
+			entities.get(key).get(i).tick();
+		}
+	}
+	
+	public void render() {
+		for(String key : entities.keySet()) {
+			for (int i = 0; i < entities.get(key).size(); i++)
+			entities.get(key).get(i).render();
+		}
+	}
+	
+	public Set<String> getTags() {
+		return entities.keySet();
+	}
+	
+	public LinkedList<Entity> getEntities(String tag) {
+		return entities.get(tag);
+	}
+}
