@@ -9,26 +9,37 @@ import org.joml.Vector4f;
 public class MathUtils {
 
 	public static float lerp(float var, float destination, float smoothness) {
-		var += (destination - var) * smoothness;
-		return var;
+		return var + smoothness * (destination - var);
 	}
 	
-	public static void lerp(Vector4f current, Vector4f destination, float smoothness) {
-		current.x = lerp(current.x, destination.x, smoothness);
-		current.y = lerp(current.y, destination.y, smoothness);
-		current.z = lerp(current.z, destination.z, smoothness);
-		current.w = lerp(current.w, destination.w, smoothness);
+	public static Vector2f lerp(Vector2f src, Vector2f dst, float t) {
+		Vector2f result = new Vector2f();
+		
+		result.x = lerp(src.x, dst.x, t);
+		result.y = lerp(src.y, dst.y, t);
+		
+		return result;
 	}
 	
-	public static void lerp(Vector3f current, Vector3f destination, float smoothness) {
-		current.x = lerp(current.x, destination.x, smoothness);
-		current.y = lerp(current.y, destination.y, smoothness);
-		current.z = lerp(current.z, destination.z, smoothness);
+	public static Vector3f lerp(Vector3f src, Vector3f dst, float t) {
+		Vector3f result = new Vector3f();
+		
+		result.x = lerp(src.x, dst.x, t);
+		result.y = lerp(src.y, dst.y, t);
+		result.z = lerp(src.z, dst.z, t);
+		
+		return result;
 	}
 	
-	public static void lerp(Vector2f current, Vector2f destination, float smoothness) {
-		current.x = lerp(current.x, destination.x, smoothness);
-		current.y = lerp(current.y, destination.y, smoothness);
+	public static Vector4f lerp(Vector4f src, Vector4f dst, float t) {
+		Vector4f result = new Vector4f();
+		
+		result.x = lerp(src.x, dst.x, t);
+		result.y = lerp(src.y, dst.y, t);
+		result.z = lerp(src.z, dst.z, t);
+		result.w = lerp(src.w, dst.w, t);
+		
+		return result;
 	}
 	
 	public static float randRangeFloat(Random random, float min, float max) {

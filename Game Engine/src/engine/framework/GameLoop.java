@@ -1,19 +1,14 @@
 package engine.framework;
 
-import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
+import static org.lwjgl.opengl.GL11.glClear;
 
 import java.util.Random;
-
-import org.joml.Vector2f;
-import org.joml.Vector4f;
 
 import engine.io.Keyboard;
 import engine.io.Mouse;
 import engine.io.Window;
-import engine.rendering.buffers.Texture;
 import engine.rendering.renderers.Renderer;
-import particles.ParticleGenerator;
-import particles.presets.ParticlePresets;
 
 public class GameLoop {
 
@@ -25,7 +20,6 @@ public class GameLoop {
 
 	private Thread logicThread;
 	private Thread inputThread;
-	private ParticleGenerator gen;
 	
 	public static Renderer renderer;
 
@@ -39,8 +33,7 @@ public class GameLoop {
 		Keyboard.init();
 
 		renderer = new Renderer(100000, 100000);
-		gen = new ParticleGenerator();
-
+		
 		logicThread = new Thread(new Runnable() {
 
 			public void run() {
@@ -136,25 +129,10 @@ public class GameLoop {
 		Renderer.delete();
 	}
 
-	Texture texture = new Texture("../Game Engine/res/cosmic.png");
-
-	boolean canGen = false;
-
 	private void tick() {
-		gen.tick();
-		if (canGen) {
-			float x = Mouse.getPosition().x;
-			float y = Mouse.getPosition().y;
-			gen.emitTexturedParticles(2, new Vector2f(x, y), 0, 20, new Vector4f(1, 0.7f, 0, 1), new Vector4f(1, 0.2f, 0.6f, 0),
-					new Vector4f(0, 0, 1, 1), texture, 1600, ParticlePresets.FLAME);
-		}
 	}
 
 	private void input() {
-		if (Mouse.isButtonDown(Mouse.LEFT_BUTTON)) {
-			canGen = true;
-		} else
-			canGen = false;
 		Mouse.input();
 		Keyboard.input();
 	}
@@ -162,17 +140,6 @@ public class GameLoop {
 	private void render() {
 		Window.clearColor();
 		glClear(GL_COLOR_BUFFER_BIT);
-		for (int i = 0; i < gen.particles.size(); i++) {
-			try {
-				renderer.renderParticle(gen.particles.get(i));
-			} catch (Exception e) {
-				System.out.println(gen.particles == null);
-				System.out.println(gen.particles.get(i) == null);
-				e.printStackTrace();
-				System.exit(1);
-			}
-		}
-
 		renderer.display();
 		
 		Window.swapBuffers();
