@@ -21,7 +21,7 @@ public class GameLoop {
 	private Thread logicThread;
 	private Thread inputThread;
 	
-	public static Renderer renderer;
+	public static Renderer renderer; 
 
 	public static Random random = new Random();
 
