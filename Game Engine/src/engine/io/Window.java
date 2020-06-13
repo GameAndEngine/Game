@@ -9,7 +9,6 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowPosCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 
-import engine.framework.GameLoop;
 import engine.framework.Logger;
 
 public class Window {
@@ -53,7 +52,7 @@ public class Window {
 			public void invoke(long id, int width, int height) {
 				Window.width = width;
 				Window.height = height;
-				GameLoop.renderer.setProjection();
+				
 				glViewport(0, 0, width, height);
 			}
 			

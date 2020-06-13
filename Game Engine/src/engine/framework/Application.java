@@ -9,8 +9,9 @@ import engine.io.Keyboard;
 import engine.io.Mouse;
 import engine.io.Window;
 import engine.rendering.renderers.Renderer;
+import engine.scenes.SceneManager;
 
-public class GameLoop {
+public class Application {
 
 	private int tickCap;
 	private int inputCap;
@@ -18,26 +19,26 @@ public class GameLoop {
 
 	private boolean running = false;
 
-	private Thread logicThread;
 	private Thread inputThread;
+	private Thread logicThread;
 	
-	public static Renderer renderer; 
+	public SceneManager sceneManager;
 	
 	public static Random random = new Random();
 
-	public GameLoop(int tickCap, int inputCap) {
+	public Application(int tickCap, int inputCap) {
 		this.tickCap = tickCap;
 		this.inputCap = inputCap;
 
 		Mouse.init();
 		Keyboard.init();
 
-		renderer = new Renderer(100000, 100000);
+		sceneManager = new SceneManager();
 		
 		logicThread = new Thread(new Runnable() {
 
 			public void run() {
-				onLogicRun();
+				onTick();
 			}
 
 		});
@@ -45,48 +46,22 @@ public class GameLoop {
 		inputThread = new Thread(new Runnable() {
 
 			public void run() {
-				onInputRun();
+				onInput();
 			}
 
 		});
+		
 	}
 
 	public void start() {
 		running = true;
-		logicThread.start();
 		inputThread.start();
-		onRenderRun();
+		logicThread.start();
+		onRender();
+		sceneManager.start();
 	}
 
-	private void onLogicRun() {
-		long lastTime = System.nanoTime();
-		double amountOfTicks = (double) tickCap;
-		double ns = 1000000000 / amountOfTicks;
-		double delta = 0;
-		long timer = System.currentTimeMillis();
-		@SuppressWarnings("unused")
-		int ticks = 0;
-
-		while (running) {
-			if (Engine.isGLFWInitialized())
-				running = !Window.isCloseRequested();
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
-			while (delta >= 1) {
-				tick();
-				ticks++;
-				delta--;
-			}
-
-			if (System.currentTimeMillis() - timer >= 1000) {
-				timer += 1000;
-				ticks = 0;
-			}
-		}
-	}
-
-	private void onInputRun() {
+	private void onTick() {
 		long lastTime = System.nanoTime();
 		double amountOfTicks = (double) inputCap;
 		double ns = 1000000000 / amountOfTicks;
@@ -114,7 +89,35 @@ public class GameLoop {
 		}
 	}
 
-	private void onRenderRun() {
+	private void onInput() {
+		long lastTime = System.nanoTime();
+		double amountOfTicks = (double) tickCap;
+		double ns = 1000000000 / amountOfTicks;
+		double delta = 0;
+		long timer = System.currentTimeMillis();
+		@SuppressWarnings("unused")
+		int ticks = 0;
+
+		while (running) {
+			if (Engine.isGLFWInitialized())
+				running = !Window.isCloseRequested();
+			long now = System.nanoTime();
+			delta += (now - lastTime) / ns;
+			lastTime = now;
+			while (delta >= 1) {
+				tick();
+				ticks++;
+				delta--;
+			}
+
+			if (System.currentTimeMillis() - timer >= 1000) {
+				timer += 1000;
+				ticks = 0;
+			}
+		}
+	}
+
+	private void onRender() {
 		long timer = System.currentTimeMillis();
 
 		while (running) {
@@ -130,9 +133,11 @@ public class GameLoop {
 	}
 
 	private void tick() {
+		sceneManager.tick();
 	}
 
 	private void input() {
+		sceneManager.input();
 		Mouse.input();
 		Keyboard.input();
 	}
@@ -140,7 +145,8 @@ public class GameLoop {
 	private void render() {
 		Window.clearColor();
 		glClear(GL_COLOR_BUFFER_BIT);
-		renderer.display();
+
+		sceneManager.display();
 		
 		Window.swapBuffers();
 		Window.pollEvents();

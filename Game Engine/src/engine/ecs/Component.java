@@ -1,5 +1,7 @@
 package engine.ecs;
 
+import engine.rendering.renderers.Renderer;
+
 public abstract class Component {
 	
 	protected Entity parent;
@@ -8,7 +10,7 @@ public abstract class Component {
 	public void start() {}
 	public void input() {}
 	public void tick() {}
-	public void render() {}
+	public void render(Renderer renderer) {}
 	
 	public void onAttach() {}
 	

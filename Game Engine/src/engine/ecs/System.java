@@ -4,6 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Set;
 
+import engine.rendering.renderers.Renderer;
+
 public class System {
 
 	private LinkedHashMap<String, LinkedList<Entity>> entities;
@@ -55,10 +57,10 @@ public class System {
 		}
 	}
 	
-	public void render() {
+	public void render(Renderer renderer) {
 		for(String key : entities.keySet()) {
 			for (int i = 0; i < entities.get(key).size(); i++)
-			entities.get(key).get(i).render();
+			entities.get(key).get(i).render(renderer);
 		}
 	}
 	

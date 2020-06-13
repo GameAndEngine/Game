@@ -2,6 +2,8 @@ package engine.ecs;
 
 import java.util.LinkedHashMap;
 
+import engine.rendering.renderers.Renderer;
+
 public class Entity {
 
 	private LinkedHashMap<String, Component> components;
@@ -32,9 +34,9 @@ public class Entity {
 		}
 	}
 	
-	public void render() {
+	public void render(Renderer renderer) {
 		for(String name : components.keySet()) {
-			getComponent(name).render();
+			getComponent(name).render(renderer);
 		}
 	}
 	

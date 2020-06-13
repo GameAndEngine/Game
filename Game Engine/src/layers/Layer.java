@@ -1,10 +1,12 @@
 package layers;
 
 import engine.ecs.System;
+import engine.rendering.renderers.Renderer;
 
 public class Layer {
 
 	public System system;
+	public Renderer renderer;
 	
 	private String name;
 	
@@ -17,6 +19,8 @@ public class Layer {
 		this.inputEnabled = inputEnabled;
 		this.tickingEnabled = tickingEnabled;
 		this.renderingEnabled = renderingEnabled;
+		
+		renderer = new Renderer(10000, 10000);
 	}
 	
 	public void start() {
@@ -32,7 +36,11 @@ public class Layer {
 	}
 	
 	public void render() {
-		system.render();
+		system.render(renderer);
+	}
+	
+	public void display() {
+		renderer.display();
 	}
 	
 	public String getName() {
