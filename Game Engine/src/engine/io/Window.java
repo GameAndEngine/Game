@@ -9,7 +9,10 @@ import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.glfw.GLFWWindowPosCallback;
 import org.lwjgl.glfw.GLFWWindowSizeCallback;
 
+import engine.framework.Application;
 import engine.framework.Logger;
+import engine.rendering.layers.Layer;
+import engine.rendering.scenes.Scene;
 
 public class Window {
 
@@ -53,6 +56,13 @@ public class Window {
 				Window.width = width;
 				Window.height = height;
 				
+				Scene scene = Application.sceneManager.activeScene;
+				if(scene != null) {
+					for(String name : scene.stack.layers.keySet()) {
+						Layer layer = scene.stack.get(name);
+						layer.renderer.setProjection();
+					}
+				}
 				glViewport(0, 0, width, height);
 			}
 			

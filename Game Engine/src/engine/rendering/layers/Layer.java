@@ -1,5 +1,6 @@
-package layers;
+package engine.rendering.layers;
 
+import engine.ecs.Entity;
 import engine.ecs.System;
 import engine.rendering.renderers.Renderer;
 
@@ -20,7 +21,16 @@ public class Layer {
 		this.tickingEnabled = tickingEnabled;
 		this.renderingEnabled = renderingEnabled;
 		
-		renderer = new Renderer(10000, 10000);
+		system = new System();
+		renderer = new Renderer(100000, 100000, 100000);
+	}
+	
+	public void add(Entity entity) {
+		system.add(entity);
+	}
+	
+	public void remove(Entity entity) {
+		system.remove(entity);
 	}
 	
 	public void start() {

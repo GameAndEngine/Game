@@ -1,6 +1,7 @@
 package engine.rendering.buffers;
 
 import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL40.*;
 import static org.lwjgl.stb.STBImage.*;
 
 import java.nio.ByteBuffer;
@@ -44,8 +45,9 @@ public class Texture {
 		bind();
 		
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixels);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+		glGenerateMipmap(GL_TEXTURE_2D);
 		
 		unbind();
 	}
@@ -56,5 +58,13 @@ public class Texture {
 	
 	public void unbind() {
 		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 }

@@ -1,11 +1,11 @@
-package particles.presets;
+package engine.particles.presets;
 
 import java.util.Random;
 
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
-import engine.framework.GameLoop;
+import engine.framework.Application;
 import engine.utilities.MathUtils;
 
 public class ParticlePreset {
@@ -39,7 +39,7 @@ public class ParticlePreset {
 	}
 	
 	public float generateParticleMotion(Vector2f range) {
-		Random rand = GameLoop.random;
+		Random rand = Application.random;
 		return MathUtils.randRangeFloat(rand, range.x, range.y);
 	}
 }

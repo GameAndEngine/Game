@@ -1,4 +1,4 @@
-package engine.scenes;
+package engine.rendering.scenes;
 
 import java.util.LinkedHashMap;
 

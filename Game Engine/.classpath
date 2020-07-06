@@ -43,5 +43,6 @@
 	<classpathentry kind="lib" path="lib/lwjgl-stb-sources.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl-stb.jar"/>
 	<classpathentry kind="lib" path="lib/lwjgl.jar"/>
+	<classpathentry kind="lib" path="lib/json-simple-1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,12 +1,13 @@
-package engine.scenes;
+package engine.rendering.scenes;
 
-import layers.Layer;
-import layers.LayerStack;
+import engine.rendering.layers.Layer;
+import engine.rendering.layers.LayerStack;
 
 public class Scene {
 
 	private String name;
-	private LayerStack stack;
+	
+	public LayerStack stack;
 	
 	public Scene(String name) {
 		this.name = name;

@@ -14,7 +14,7 @@ public class System {
 		entities = new LinkedHashMap<String, LinkedList<Entity>>();
 	}
 	
-	public void addEntity(Entity entity) {
+	public void add(Entity entity) {
 		entity.system = this;
 		if (!entities.containsKey(entity.getTag())) {
 			entities.put(entity.getTag(), new LinkedList<Entity>());
@@ -23,12 +23,12 @@ public class System {
 		entities.get(entity.getTag()).add(entity);
 	}
 	
-	public void addEntityAtRuntime(Entity entity) {
-		addEntity(entity);
+	public void addAtRuntime(Entity entity) {
+		add(entity);
 		entity.start();
 	}
 	
-	public void removeEntity(Entity entity) {
+	public void remove(Entity entity) {
 		entities.get(entity.getTag()).remove(entity);
 	}
 	

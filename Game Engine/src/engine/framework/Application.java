@@ -4,27 +4,32 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.util.Random;
 
+import engine.ecs.Entity;
+import engine.ecs.RenderingComp;
 import engine.io.Keyboard;
 import engine.io.Mouse;
 import engine.io.Window;
+import engine.rendering.layers.Layer;
 import engine.rendering.renderers.Renderer;
-import engine.scenes.SceneManager;
+import engine.rendering.scenes.Scene;
+import engine.rendering.scenes.SceneManager;
 
 public class Application {
 
 	private int tickCap;
 	private int inputCap;
-	private int fps = 0;
+	
+	public static int fps = 0;
+	public static int fpsSecond = 0;
 
 	private boolean running = false;
 
 	private Thread inputThread;
 	private Thread logicThread;
 	
-	public SceneManager sceneManager;
-	
 	public static Random random = new Random();
-
+	public static SceneManager sceneManager;
+	
 	public Application(int tickCap, int inputCap) {
 		this.tickCap = tickCap;
 		this.inputCap = inputCap;
@@ -33,34 +38,40 @@ public class Application {
 		Keyboard.init();
 
 		sceneManager = new SceneManager();
+		Scene scene = new Scene("Main");
+		Layer layer = new Layer("Main", true, true, true);
+		Entity entity = new Entity("Main");
+		entity.addComponent(new RenderingComp());
+		layer.add(entity);
+		scene.add(layer);
+		sceneManager.activeScene = scene;
 		
-		logicThread = new Thread(new Runnable() {
-
-			public void run() {
-				onTick();
-			}
-
-		});
-
 		inputThread = new Thread(new Runnable() {
 
 			public void run() {
-				onInput();
+				onInputRun();
 			}
 
 		});
-		
+
+		logicThread = new Thread(new Runnable() {
+
+			public void run() {
+				onLogicRun();
+			}
+
+		});
 	}
 
 	public void start() {
 		running = true;
+		sceneManager.start();
 		inputThread.start();
 		logicThread.start();
-		onRender();
-		sceneManager.start();
+		onRenderRun();
 	}
 
-	private void onTick() {
+	private void onInputRun() {
 		long lastTime = System.nanoTime();
 		double amountOfTicks = (double) inputCap;
 		double ns = 1000000000 / amountOfTicks;
@@ -88,7 +99,7 @@ public class Application {
 		}
 	}
 
-	private void onInput() {
+	private void onLogicRun() {
 		long lastTime = System.nanoTime();
 		double amountOfTicks = (double) tickCap;
 		double ns = 1000000000 / amountOfTicks;
@@ -116,7 +127,7 @@ public class Application {
 		}
 	}
 
-	private void onRender() {
+	private void onRenderRun() {
 		long timer = System.currentTimeMillis();
 
 		while (running) {
@@ -124,15 +135,12 @@ public class Application {
 			fps++;
 			if (System.currentTimeMillis() - timer > 1000) {
 				System.out.println("Frame rate: " + fps);
+				fpsSecond = fps;
 				timer += 1000;
 				fps = 0;
 			}
 		}
 		Renderer.delete();
-	}
-
-	private void tick() {
-		sceneManager.tick();
 	}
 
 	private void input() {
@@ -141,12 +149,16 @@ public class Application {
 		Keyboard.input();
 	}
 
+	private void tick() {
+		sceneManager.tick();
+	}
+
 	private void render() {
 		Window.clearColor();
 		glClear(GL_COLOR_BUFFER_BIT);
 
+		sceneManager.render();
 		sceneManager.display();
-		
 		Window.swapBuffers();
 		Window.pollEvents();
 	}

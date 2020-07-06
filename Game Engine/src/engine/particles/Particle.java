@@ -1,4 +1,4 @@
-package particles;
+package engine.particles;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -22,7 +22,9 @@ public class Particle {
 	private Vector2f texOffset1 = new Vector2f();
 	private Vector2f texOffset2 = new Vector2f();
 	private Vector2i atlasDimensions;
-
+	private Vector2f startScale;
+	private Vector4f startColor;
+	
 	public float rotation;
 	public float rotationalVelocity;
 	public float gravity;
@@ -38,7 +40,9 @@ public class Particle {
 		this.position = position;
 		this.rotation = rotation;
 		this.scale = scale;
-		this.color = new Vector4f(color);
+		this.startScale = new Vector2f(scale);
+		this.color = color;
+		this.startColor = new Vector4f(color);
 		this.positionalVelocity = positionalVelocity;
 		this.rotationalVelocity = rotationalVelocity;
 		this.endColor = endColor;
@@ -83,10 +87,9 @@ public class Particle {
 		position = position.add(positionalVelocity);
 		rotation += rotationalVelocity;
 		if (scale.x >= 0 && scale.y >= 0) {
-			scale.x += -scale.x * lifeCounter / life;
-			scale.y += -scale.y * lifeCounter / life;
+			scale = MathUtils.lerp(startScale, new Vector2f(0, 0), lifeCounter / life);
 		}
-		MathUtils.lerp(color, endColor, lifeCounter / life);
+		color = MathUtils.lerp(startColor, endColor, lifeCounter / life);
 		if (particleType == ParticleType.ANIMATED)
 			updateTextureCoords();
 		lifeCounter++;
@@ -112,7 +115,7 @@ public class Particle {
 	}
 
 	public boolean isAlive() {
-		return lifeCounter < life;
+		return lifeCounter <= life;
 	}
 
 	public Texture getTexture() {

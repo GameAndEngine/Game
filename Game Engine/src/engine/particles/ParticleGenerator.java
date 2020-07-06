@@ -1,4 +1,4 @@
-package particles;
+package engine.particles;
 
 import java.util.ArrayList;
 
@@ -6,10 +6,10 @@ import org.joml.Vector2f;
 import org.joml.Vector2i;
 import org.joml.Vector4f;
 
-import engine.framework.GameLoop;
+import engine.framework.Application;
+import engine.particles.presets.ParticlePreset;
 import engine.rendering.buffers.Texture;
 import engine.utilities.MathUtils;
-import particles.presets.ParticlePreset;
 
 public class ParticleGenerator {
 
@@ -20,7 +20,7 @@ public class ParticleGenerator {
 		for(int i = 0; i < numParticles; i++) {
 			float determinedX = spawnPoint.x + presetInstance.generateParticleMotion(presetInstance.positionRangeX);
 			float determinedY = spawnPoint.y + presetInstance.generateParticleMotion(presetInstance.positionRangeY);
-			float determinedScale = scale + MathUtils.randRangeFloat(GameLoop.random, presetInstance.scaleRange.x, presetInstance.scaleRange.y);
+			float determinedScale = scale + MathUtils.randRangeFloat(Application.random, presetInstance.scaleRange.x, presetInstance.scaleRange.y);
 			float determinedVelocityX = presetInstance.generateParticleMotion(presetInstance.velocityRangeX);
 			float determinedVelocityY = presetInstance.generateParticleMotion(presetInstance.velocityRangeY);
 			Particle particle = new Particle(new Vector2f(determinedX, determinedY), rotation, new Vector2f(determinedScale, determinedScale), 
@@ -35,7 +35,7 @@ public class ParticleGenerator {
 		for(int i = 0; i < numParticles; i++) {
 			float determinedX = spawnPoint.x + presetInstance.generateParticleMotion(presetInstance.positionRangeX);
 			float determinedY = spawnPoint.y + presetInstance.generateParticleMotion(presetInstance.positionRangeY);
-			float determinedScale = scale + MathUtils.randRangeFloat(GameLoop.random, presetInstance.scaleRange.x, presetInstance.scaleRange.y);
+			float determinedScale = scale + MathUtils.randRangeFloat(Application.random, presetInstance.scaleRange.x, presetInstance.scaleRange.y);
 			float determinedVelocityX = presetInstance.generateParticleMotion(presetInstance.velocityRangeX);
 			float determinedVelocityY = presetInstance.generateParticleMotion(presetInstance.velocityRangeY);
 			Particle particle = new Particle(new Vector2f(determinedX, determinedY), rotation, new Vector2f(determinedScale, determinedScale), 
@@ -50,7 +50,7 @@ public class ParticleGenerator {
 		for(int i = 0; i < numParticles; i++) {
 			float determinedX = spawnPoint.x + presetInstance.generateParticleMotion(presetInstance.positionRangeX);
 			float determinedY = spawnPoint.y + presetInstance.generateParticleMotion(presetInstance.positionRangeY);
-			float determinedScale = scale + MathUtils.randRangeFloat(GameLoop.random, presetInstance.scaleRange.x, presetInstance.scaleRange.y);
+			float determinedScale = scale + MathUtils.randRangeFloat(Application.random, presetInstance.scaleRange.x, presetInstance.scaleRange.y);
 			float determinedVelocityX = presetInstance.generateParticleMotion(presetInstance.velocityRangeX);
 			float determinedVelocityY = presetInstance.generateParticleMotion(presetInstance.velocityRangeY);
 			Particle particle = new Particle(new Vector2f(determinedX, determinedY), rotation, new Vector2f(determinedScale, determinedScale), 

@@ -1,10 +1,10 @@
-package layers;
+package engine.rendering.layers;
 
 import java.util.LinkedHashMap;
 
 public class LayerStack {
 
-	private LinkedHashMap<String, Layer> layers;
+	public LinkedHashMap<String, Layer> layers;
 	
 	public LayerStack() {
 		layers = new LinkedHashMap<String, Layer>();
