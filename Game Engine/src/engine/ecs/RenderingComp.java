@@ -19,9 +19,9 @@ public class RenderingComp extends Component {
 	private Texture cosmic;
 	
 	public void start() {
-		font = FontUtils.loadFont("/engine/rendering/fonts/fnts/candara.fnt", "../Engine/res/fonts/candara.png");
+		font = FontUtils.loadFont("/engine/rendering/fonts/fnts/candara.fnt", "../Game Engine/res/fonts/candara.png");
 		gen = new ParticleGenerator();
-		cosmic = new Texture("../Engine/res/textures/cosmic.png");
+		cosmic = new Texture("../Game Engine/res/textures/cosmic.png");
 	}
 	
 	public void input() {
