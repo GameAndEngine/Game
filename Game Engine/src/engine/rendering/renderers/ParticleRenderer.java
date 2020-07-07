@@ -105,16 +105,9 @@ public class ParticleRenderer {
 	}
 	
 	public void render(Particle particle) {
-		Matrix4f transform = null;
-		try {
-			transform = new Matrix4f().identity().translate(new Vector3f(particle.position.x, particle.position.y, 1).sub(particle.scale.x / 2, particle.scale.y / 2, 0))
+		Matrix4f transform = new Matrix4f().identity().translate(new Vector3f(particle.position.x, particle.position.y, 1).sub(particle.scale.x / 2, particle.scale.y / 2, 0))
 					.translate(particle.scale.x / 2, particle.scale.y / 2, 0).rotate(particle.rotation, 
 					new Vector3f(0, 0, 1)).translate(-particle.scale.x / 2, -particle.scale.y / 2, 0).scale(new Vector3f(particle.scale.x, particle.scale.y, 1));
-		} catch(Exception e) {
-			System.out.println(transform == null);
-			System.out.println(particle == null);
-			System.out.println(particle.position);
-		}
 		Texture texture = particle.getTexture();
 		Vector4f color = new Vector4f(particle.color);
 		

@@ -1,6 +1,6 @@
 package engine.particles;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.joml.Vector2f;
 import org.joml.Vector2i;
@@ -13,7 +13,7 @@ import engine.utilities.MathUtils;
 
 public class ParticleGenerator {
 
-	public ArrayList<Particle> particles = new ArrayList<Particle>();
+	public LinkedList<Particle> particles = new LinkedList<Particle>();
 	
 	public void emitAnimatedParticles(int numParticles, Vector2f spawnPoint, float rotation, float scale, Vector4f color, Vector4f endColor, Texture texture, Vector2i atlasDim, float life, ParticlePreset preset) {
 		ParticlePreset presetInstance = new ParticlePreset(preset);
@@ -63,10 +63,11 @@ public class ParticleGenerator {
 	public void tick() {
 		for(int i = 0; i < particles.size(); i++) {
 			Particle particle = particles.get(i);
-			if(!particle.isAlive()) {
-				particles.remove(particle);
+			if(particle.isAlive()) {
+				particles.get(i).tick();
+			} else {
+				particles.remove(i);
 			}
-			particle.tick();
 		}
 	}
 }
