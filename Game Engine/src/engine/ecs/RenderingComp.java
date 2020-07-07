@@ -12,6 +12,7 @@ import engine.rendering.buffers.Texture;
 import engine.rendering.fonts.Font;
 import engine.rendering.renderers.Renderer;
 import engine.utilities.FontUtils;
+import engine.utilities.MathUtils;
 
 public class RenderingComp extends Component {
 	
@@ -30,12 +31,16 @@ public class RenderingComp extends Component {
 				new Vector4f(0, 0, 1, 1), cosmic, 50, ParticlePresets.FLAME);
 	}
 	
+	float fontScale = 0;
+	
 	public void tick() {
+		fontScale = MathUtils.lerp(fontScale, Mouse.getPosition().x / Window.getWidth(), 0.1f);
 		gen.tick();
 	}
 	
-	public void render(Renderer renderer) { 
-		renderer.renderText(font, "fps: " + Application.fpsSecond, new Vector2f(50, 50), new Vector4f(0, 1, 0.5f, 1), 5 * (Mouse.getPosition().x / Window.getWidth()), 1f, 1f);
+	
+	public void render(Renderer renderer) {
+		renderer.renderText(font, "fps: " + Application.fpsSecond, new Vector2f(50, 50), new Vector4f(0, 1, 0.5f, 1), 5 * fontScale, 1f, 1f);
 		for(int i = 0; i < gen.particles.size(); i++) {
 			renderer.renderParticle(gen.particles.get(i));
 		}
