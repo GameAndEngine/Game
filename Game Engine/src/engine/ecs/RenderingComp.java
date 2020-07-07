@@ -3,6 +3,7 @@ package engine.ecs;
 import org.joml.Vector2f;
 import org.joml.Vector4f;
 
+import engine.framework.Application;
 import engine.io.Mouse;
 import engine.io.Window;
 import engine.particles.ParticleGenerator;
@@ -34,7 +35,7 @@ public class RenderingComp extends Component {
 	}
 	
 	public void render(Renderer renderer) { 
-		renderer.renderText(font, "Application", new Vector2f(50, 50), new Vector4f(0, 1, 0.5f, 1), 5 * (Mouse.getPosition().x / Window.getWidth()), 1f, 1f);
+		renderer.renderText(font, "fps: " + Application.fpsSecond, new Vector2f(50, 50), new Vector4f(0, 1, 0.5f, 1), 5 * (Mouse.getPosition().x / Window.getWidth()), 1f, 1f);
 		for(int i = 0; i < gen.particles.size(); i++) {
 			renderer.renderParticle(gen.particles.get(i));
 		}

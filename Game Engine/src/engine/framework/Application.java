@@ -51,7 +51,6 @@ public class Application {
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int updates = 0;
-		int frames = 0;
 		while(running){
 			if (Engine.isGLFWInitialized())
 				running = !Window.isCloseRequested();
@@ -65,12 +64,13 @@ public class Application {
 				delta--;
 			}
 			render();
-			frames++;
+			fps++;
 					
 			if(System.currentTimeMillis() - timer > 1000){
 				timer += 1000;
-				System.out.println("FPS: " + frames + " TICKS: " + updates);
-				frames = 0;
+				fpsSecond = fps;
+				System.out.println("FPS: " + fps + " TICKS: " + updates);
+				fps = 0;
 				updates = 0;
 			}
 		}
