@@ -39,12 +39,8 @@ public class Renderer {
 		particleRenderer.render(particle);
 	}
 	
-	public void renderText(Font font, String text, Vector2f position, Vector4f[] colors, float fontScale, float alter, float spacing) {
-		fontRenderer.renderText(font, text, position, colors, fontScale, alter, spacing);
-	}
-	
-	public void renderText(Font font, String text, Vector2f position, Vector4f color, float fontScale, float alter, float spacing) {
-		fontRenderer.renderText(font, text, position, color, fontScale, alter, spacing);
+	public void renderText(Font font, String text, Vector2f position, Vector4f color, float fontScale, float alter, float spacing, float lineSpacing) {
+		fontRenderer.renderText(font, text, position, color, fontScale, alter, spacing, lineSpacing);
 	}
 	
 	public void display() {

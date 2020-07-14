@@ -7,6 +7,10 @@ public abstract class Component {
 	protected Entity parent;
 	protected String name;
 	
+	public Component(String name) {
+		this.name = name;
+	}
+	
 	public void start() {}
 	public void input() {}
 	public void tick() {}
@@ -14,7 +18,7 @@ public abstract class Component {
 	
 	public void onAttach() {}
 	
-	public String getString() {
+	public String getName() {
 		return name;
 	}
 	

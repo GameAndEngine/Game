@@ -104,6 +104,7 @@ public class QuadRenderer {
 		
 		if(texture == null) {
 			texture = TextureUtils.getEmptyTexture();
+			clip = new Vector4f(0, 0, 1, 1);
 		}
 		
 		if(!verticesMap.containsKey(texture)) {

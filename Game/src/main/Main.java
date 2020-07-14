@@ -1,7 +1,7 @@
 package main;
 
-import engine.framework.Engine;
 import engine.framework.Application;
+import engine.framework.Engine;
 import engine.io.Window;
 
 public class Main {

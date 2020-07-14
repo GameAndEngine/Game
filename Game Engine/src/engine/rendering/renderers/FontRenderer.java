@@ -131,35 +131,20 @@ public class FontRenderer {
 		vertices.add(new Vertex(topRight, color, new Vector2f(clip.x + clip.z, clip.y), new Vector2f(width, edge)));
 	}
 	
-	public void renderText(Font font, String text, Vector2f position, Vector4f[] colors, float fontScale, float alter, float spacing) {
-		float x = (position.x - (float) font.get(text.charAt(0)).getxOffset() * fontScale) - (float) font.getPaddings()[0] * fontScale;
+	public void renderText(Font font, String text, Vector2f position, Vector4f color, float fontScale, float alter, float spacing, float lineSpacing) {
 		float y = (position.y - (float) font.get('l').getyOffset() * fontScale) - (float) font.getPaddings()[0] * fontScale;;
-		int colorIndex = 0;
 		
-		for(int i = 0; i < text.length(); i++) {
-			FontCharacter character = font.get(text.charAt(i));
-			Vector2f offsetPosition = new Vector2f(x + (float) character.getxOffset() * fontScale, y + ((float) character.getyOffset() * fontScale));
-			
-			if(text.charAt(i) != ' ') {
-				Vector4f color = colors[colorIndex < colors.length ? colorIndex : colors.length - 1];
-				renderChar(font, text.charAt(i), offsetPosition, color, fontScale, alter);
-				colorIndex++;
+		String[] lines = text.split("\n");
+		for(String line : lines) {
+			float x = (position.x - (float) font.get(text.charAt(0)).getxOffset() * fontScale) - (float) font.getPaddings()[0] * fontScale;
+			for(int i = 0; i < line.length(); i++) {
+				FontCharacter character = font.get(line.charAt(i));
+				Vector2f offsetPosition = new Vector2f(x + (float) character.getxOffset() * fontScale, y + ((float) character.getyOffset() * fontScale));
+				
+				renderChar(font, line.charAt(i), offsetPosition, color, fontScale, alter);
+				x += ((float) (character.getxAdvance() - (font.getPaddings()[0] + font.getPaddings()[1]) / spacing) * fontScale);
 			}
-			
-			x += ((float) (character.getxAdvance() - (font.getPaddings()[0] + font.getPaddings()[1]) / spacing) * fontScale);
-		}
-	}
-	
-	public void renderText(Font font, String text, Vector2f position, Vector4f color, float fontScale, float alter, float spacing) {
-		float x = (position.x - (float) font.get(text.charAt(0)).getxOffset() * fontScale) - (float) font.getPaddings()[0] * fontScale;
-		float y = (position.y - (float) font.get('l').getyOffset() * fontScale) - (float) font.getPaddings()[0] * fontScale;;
-		
-		for(int i = 0; i < text.length(); i++) {
-			FontCharacter character = font.get(text.charAt(i));
-			Vector2f offsetPosition = new Vector2f(x + (float) character.getxOffset() * fontScale, y + ((float) character.getyOffset() * fontScale));
-			
-			renderChar(font, text.charAt(i), offsetPosition, color, fontScale, alter);
-			x += ((float) (character.getxAdvance() - (font.getPaddings()[0] + font.getPaddings()[1]) / spacing) * fontScale);
+			y += (font.getLineHeight() / lineSpacing) * fontScale;
 		}
 	}
 	

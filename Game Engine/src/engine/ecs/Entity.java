@@ -10,7 +10,8 @@ public class Entity {
 	
 	public String tag;
 	public System system;
-
+	public Transform transform = new Transform();
+	
 	public Entity(String tag) {
 		this.tag = tag;
 		components = new LinkedHashMap<String, Component>();
@@ -41,7 +42,7 @@ public class Entity {
 	}
 	
 	public Component addComponent(Component component) {
-		components.put(component.getClass().getSimpleName(), component);
+		components.put(component.getName(), component);
 		component.parent = this;
 		component.onAttach();
 		return component;
